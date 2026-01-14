@@ -58,8 +58,9 @@ module.exports = {
                 },
             },
             fontFamily: {
-                display: ['Bebas Neue', 'Oswald', 'sans-serif'],
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                display: ['Anton', 'Bebas Neue', 'Impact', 'sans-serif'],
+                sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+                navbar: ['Sour Gummy', 'Poppins', 'sans-serif'],
             },
             animation: {
                 'fade-in': 'fadeIn 0.5s ease-in-out',

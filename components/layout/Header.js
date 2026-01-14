@@ -2,26 +2,26 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, Facebook, Instagram, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navLinks = [
-        { href: '/', label: 'Inicio' },
-        { href: '/nosotros', label: 'Nosotros' },
-        { href: '/productos', label: 'Productos' },
-        { href: '/contacto', label: 'Contacto' },
+        { href: '/', label: 'INICIO' },
+        { href: '/nosotros', label: 'NOSOTROS' },
+        { href: '/productos', label: 'PRODUCTOS' },
+        { href: '/contacto', label: 'CONTACTO' },
     ];
 
     return (
-        <header className="sticky top-0 z-50 bg-white shadow-md">
+        <header className="bg-brown-900 text-white">
             <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between h-20">
+                <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2">
-                        <span className="text-3xl font-display text-dark-900">
+                    <Link href="/" className="flex items-center">
+                        <span className="text-3xl font-navbar font-bold text-primary-500 tracking-wide">
                             PASTELEIA
                         </span>
                     </Link>
@@ -32,36 +32,56 @@ export default function Header() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-dark-700 hover:text-primary-600 font-semibold transition-colors duration-200"
+                                className="text-white hover:text-primary-400 font-navbar font-semibold text-sm tracking-wide transition-colors duration-200"
                             >
                                 {link.label}
                             </Link>
                         ))}
                     </nav>
 
-                    {/* Cart and Mobile Menu */}
-                    <div className="flex items-center space-x-4">
+                    {/* Right Section */}
+                    <div className="hidden md:flex items-center space-x-6">
+                        {/* Social Icons */}
+                        <div className="flex items-center space-x-3">
+                            <a href="#" className="text-white hover:text-primary-400 transition-colors">
+                                <Facebook className="w-4 h-4" />
+                            </a>
+                            <a href="#" className="text-white hover:text-primary-400 transition-colors">
+                                <Instagram className="w-4 h-4" />
+                            </a>
+                            <a href="#" className="text-white hover:text-primary-400 transition-colors">
+                                <Twitter className="w-4 h-4" />
+                            </a>
+                        </div>
+
                         {/* Cart Icon */}
-                        <Link href="/carrito" className="relative p-2 hover:bg-primary-100 rounded-full transition-colors duration-200">
-                            <ShoppingCart className="w-6 h-6 text-dark-700" />
-                            <span className="absolute -top-1 -right-1 bg-primary-500 text-dark-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                        <Link href="/carrito" className="relative">
+                            <ShoppingCart className="w-5 h-5 text-white hover:text-primary-400 transition-colors" />
+                            <span className="absolute -top-2 -right-2 bg-primary-500 text-dark-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                                 0
                             </span>
                         </Link>
 
-                        {/* Mobile Menu Button */}
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="md:hidden p-2 hover:bg-primary-100 rounded-lg transition-colors duration-200"
-                            aria-label="Toggle menu"
-                        >
-                            {isMenuOpen ? (
-                                <X className="w-6 h-6 text-dark-700" />
-                            ) : (
-                                <Menu className="w-6 h-6 text-dark-700" />
-                            )}
-                        </button>
+                        {/* Sign In Button */}
+                        <Link href="/admin">
+                            <button className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-navbar font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105">
+                                ADMIN
+                            </button>
+                        </Link>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden p-2 hover:bg-brown-800 rounded-lg transition-colors duration-200"
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? (
+                            <X className="w-6 h-6 text-white" />
+                        ) : (
+                            <Menu className="w-6 h-6 text-white" />
+                        )}
+                    </button>
                 </div>
 
                 {/* Mobile Navigation */}
@@ -72,19 +92,30 @@ export default function Header() {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="md:hidden overflow-hidden"
+                            className="md:hidden overflow-hidden border-t border-brown-700"
                         >
                             <div className="py-4 space-y-2">
                                 {navLinks.map((link) => (
                                     <Link
                                         key={link.href}
                                         href={link.href}
-                                        className="block px-4 py-3 text-dark-700 hover:bg-primary-100 hover:text-primary-700 rounded-lg transition-colors duration-200"
+                                        className="block px-4 py-3 text-white hover:bg-brown-800 hover:text-primary-400 rounded-lg transition-colors duration-200 font-semibold"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         {link.label}
                                     </Link>
                                 ))}
+                                <div className="px-4 pt-4 border-t border-brown-700">
+                                    <Link href="/carrito" className="flex items-center space-x-2 text-white hover:text-primary-400 py-2">
+                                        <ShoppingCart className="w-5 h-5" />
+                                        <span>Carrito (0)</span>
+                                    </Link>
+                                    <Link href="/admin" className="block mt-2">
+                                        <button className="w-full bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold px-6 py-2 rounded-full text-sm">
+                                            ADMIN
+                                        </button>
+                                    </Link>
+                                </div>
                             </div>
                         </motion.nav>
                     )}
