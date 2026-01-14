@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-cream: #F5E6D3;
+  --primary-beige: #E8D4B8;
+  --accent-orange: #FF8C42;
+  --accent-orange-dark: #FF6B1A;
+  --dark-bg: #1A1A1A;
+  --dark-text: #0A0A0A;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-dark-800 font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-primary-200 hover:bg-primary-300 text-dark-800 font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-accent-500 text-accent-500 hover:bg-accent-500 hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-accent-500 focus:outline-none transition-colors duration-200;
+  }
+  
+  .diagonal-stripe {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--dark-bg),
+      var(--dark-bg) 20px,
+      var(--accent-orange) 20px,
+      var(--accent-orange) 40px
+    );
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+}
