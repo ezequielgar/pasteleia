@@ -43,7 +43,7 @@ export default function Home() {
 
                             <div className="flex flex-wrap gap-4">
                                 <Link href="/productos">
-                                    <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold">
+                                    <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
                                         Ver Productos
                                         <ArrowRight className="ml-2 w-5 h-5" />
                                     </Button>
@@ -122,7 +122,7 @@ export default function Home() {
                                         <h3 className="text-2xl font-display text-dark-900 mb-2">{product.name}</h3>
                                         <div className="flex items-center justify-between">
                                             <span className="text-2xl font-bold text-brown-600">{product.price}</span>
-                                            <Button size="sm" className="bg-primary-500 hover:bg-primary-600 text-dark-900">
+                                            <Button size="sm" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-semibold">
                                                 Agregar
                                             </Button>
                                         </div>
@@ -204,7 +204,7 @@ export default function Home() {
                                 La pastelería artesanal combina técnica, creatividad y pasión.
                                 Cada tarta es una obra maestra única, elaborada con precisión y dedicación.
                             </p>
-                            <Button className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold">
+                            <Button className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
                                 Descubrí Más
                             </Button>
                         </motion.div>
