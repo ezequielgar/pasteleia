@@ -3,94 +3,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Heart, Award, Clock, ArrowRight } from 'lucide-react';
+import { Heart, Award, Clock, ArrowRight, Star, Sparkles } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 
 export default function Home() {
-    const features = [
-        {
-            icon: Heart,
-            title: 'Hecho con Amor',
-            description: 'Cada producto es elaborado artesanalmente con ingredientes de primera calidad y mucho cariño.',
-        },
-        {
-            icon: Award,
-            title: '100% Artesanal',
-            description: 'Producción limitada y personalizada. Sin conservantes ni aditivos artificiales.',
-        },
-        {
-            icon: Clock,
-            title: 'Siempre Fresco',
-            description: 'Elaboramos bajo pedido para garantizar la máxima frescura en cada bocado.',
-        },
-    ];
-
     return (
-        <main className="min-h-screen">
-            {/* Hero Section */}
-            <section className="relative min-h-[90vh] bg-gradient-to-br from-primary-100 via-primary-50 to-white overflow-hidden">
-                {/* Decorative Diagonal Stripes */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 diagonal-stripe opacity-90"></div>
-                <div className="absolute top-20 right-0 w-64 h-64 bg-accent-500 rounded-full blur-3xl opacity-10"></div>
+        <main className="min-h-screen bg-white">
+            {/* Hero Section - Bake The Cookies Style */}
+            <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 text-white overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-10 left-10 w-32 h-32 bg-primary-400 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent-400 rounded-full blur-3xl"></div>
+                </div>
 
-                <div className="container mx-auto px-4 py-20 relative z-10">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="container mx-auto px-4 py-16 relative z-10">
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
                         {/* Left Content */}
                         <motion.div
-                            initial={{ opacity: 0, x: -50 }}
+                            initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 0.6 }}
                         >
-                            {/* Orange Badge */}
-                            <motion.div
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="inline-block mb-6"
-                            >
-                                <Badge variant="accent" className="text-sm px-6 py-2">
-                                    Descubre el Arte de Nuestra Pastelería Artesanal
-                                </Badge>
-                            </motion.div>
-
-                            {/* Main Title */}
-                            <h1 className="text-7xl md:text-8xl font-display text-dark-800 leading-none mb-6">
-                                BAKED
-                                <br />
-                                GOODS
-                            </h1>
-
-                            {/* Description */}
-                            <p className="text-lg text-dark-600 mb-8 max-w-md">
-                                Bienvenido a nuestra pastelería, donde la pasión se encuentra con la perfección en cada bocado.
-                                Sumérgete en el encantador mundo de nuestros productos artesanales, meticulosamente elaborados
-                                para deleitar tu paladar.
-                            </p>
-
-                            {/* 100% Original Badge */}
-                            <div className="flex items-center space-x-6 mb-8">
-                                <div className="relative">
-                                    <div className="w-24 h-24 rounded-full border-4 border-dark-800 flex items-center justify-center bg-white">
-                                        <div className="text-center">
-                                            <div className="text-xs font-bold text-dark-800">100%</div>
-                                            <div className="text-xs font-bold text-dark-800">Artesanal</div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="inline-block mb-4">
+                                <span className="bg-primary-500 text-dark-900 px-4 py-2 rounded-full text-sm font-bold">
+                                    PASTELERÍA ARTESANAL
+                                </span>
                             </div>
 
-                            {/* CTA Buttons */}
+                            <h1 className="text-6xl md:text-7xl font-display leading-none mb-6">
+                                HORNEÁ<br />
+                                LAS TARTAS
+                            </h1>
+
+                            <p className="text-xl mb-8 text-purple-100">
+                                Descubrí el arte de nuestra pastelería artesanal y disfrutá de sabores únicos
+                            </p>
+
                             <div className="flex flex-wrap gap-4">
                                 <Link href="/productos">
-                                    <Button size="lg" className="group">
+                                    <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold">
                                         Ver Productos
-                                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        <ArrowRight className="ml-2 w-5 h-5" />
                                     </Button>
                                 </Link>
                                 <Link href="/contacto">
-                                    <Button variant="outline" size="lg">
+                                    <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-purple-900">
                                         Contactanos
                                     </Button>
                                 </Link>
@@ -99,85 +58,73 @@ export default function Home() {
 
                         {/* Right Content - Product Image */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="relative flex items-center justify-center"
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="relative"
                         >
-                            <motion.div
-                                animate={{
-                                    y: [0, -10, 0],
-                                }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="relative w-80 h-80 md:w-96 md:h-96"
-                            >
+                            <div className="relative w-full h-96">
                                 <Image
                                     src="/images/hero-bundt-cake.jpg"
-                                    alt="Tarta Bundt Artesanal"
+                                    alt="Tarta Artesanal"
                                     fill
                                     className="object-contain drop-shadow-2xl"
                                     priority
                                 />
-                            </motion.div>
-
-                            {/* Decorative Text */}
-                            <div className="absolute -bottom-10 left-0 right-0">
-                                <div className="diagonal-stripe py-4 text-center overflow-hidden">
-                                    <motion.div
-                                        animate={{ x: [0, -1000] }}
-                                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                                        className="whitespace-nowrap text-2xl font-display text-white"
-                                    >
-                                        TRY NOW ✦ TRY NOW ✦ TRY NOW ✦ TRY NOW ✦ TRY NOW ✦ TRY NOW ✦
-                                    </motion.div>
-                                </div>
                             </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Why Choose Us Section */}
-            <section className="py-20 bg-white">
+            {/* Products We Bake Daily */}
+            <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-6xl font-display text-dark-800 mb-4">
-                            WHY CHOOSE US
+                    <div className="text-center mb-12">
+                        <h2 className="text-5xl font-display text-dark-900 mb-4">
+                            PRODUCTOS QUE HORNEAMOS A DIARIO
                         </h2>
-                    </motion.div>
+                        <div className="flex justify-center gap-4 flex-wrap">
+                            <span className="bg-primary-500 text-dark-900 px-4 py-2 rounded-full text-sm font-bold">TARTAS</span>
+                            <span className="bg-accent-500 text-white px-4 py-2 rounded-full text-sm font-bold">BUDINES</span>
+                            <span className="bg-brown-500 text-white px-4 py-2 rounded-full text-sm font-bold">COOKIES</span>
+                        </div>
+                    </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        {features.map((feature, index) => (
+                        {[
+                            { name: 'Tarta Marmolada', price: '$8,500', image: '/images/hero-bundt-cake.jpg', badge: 'NUEVO' },
+                            { name: 'Budín de Limón', price: '$5,500', image: '/images/about-product.jpg', badge: 'POPULAR' },
+                            { name: 'Tarta de Chocolate', price: '$9,000', image: '/images/hero-bundt-cake.jpg', badge: 'ESPECIAL' },
+                        ].map((product, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.2 }}
+                                transition={{ delay: index * 0.1 }}
                             >
-                                <Card className="p-8 h-full">
-                                    <div className="flex items-start space-x-4">
-                                        <div className="flex-shrink-0">
-                                            <div className="w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center">
-                                                <feature.icon className="w-6 h-6 text-white" />
-                                            </div>
+                                <Card className="overflow-hidden group">
+                                    <div className="relative h-64 bg-gray-100">
+                                        <Image
+                                            src={product.image}
+                                            alt={product.name}
+                                            fill
+                                            className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                        />
+                                        <div className="absolute top-4 right-4">
+                                            <span className="bg-primary-500 text-dark-900 px-3 py-1 rounded-full text-xs font-bold">
+                                                {product.badge}
+                                            </span>
                                         </div>
-                                        <div>
-                                            <h3 className="text-xl font-display text-dark-800 mb-2">
-                                                {feature.title}
-                                            </h3>
-                                            <p className="text-dark-600">
-                                                {feature.description}
-                                            </p>
+                                    </div>
+                                    <div className="p-6">
+                                        <h3 className="text-2xl font-display text-dark-900 mb-2">{product.name}</h3>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-2xl font-bold text-brown-600">{product.price}</span>
+                                            <Button size="sm" className="bg-primary-500 hover:bg-primary-600 text-dark-900">
+                                                Agregar
+                                            </Button>
                                         </div>
                                     </div>
                                 </Card>
@@ -187,71 +134,187 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* About Section */}
-            <section className="py-20 bg-gradient-to-br from-primary-50 to-white">
+            {/* Your Only Dose of Delight */}
+            <section className="py-16 bg-gradient-to-br from-primary-50 to-primary-100">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
-                        {/* Image */}
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="relative h-96 rounded-2xl overflow-hidden"
                         >
-                            <Image
-                                src="/images/about-product.jpg"
-                                alt="Sobre Nosotros"
-                                fill
-                                className="object-cover"
-                            />
+                            <div className="relative h-96 rounded-3xl overflow-hidden">
+                                <Image
+                                    src="/images/hero-bundt-cake.jpg"
+                                    alt="Delicia Artesanal"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
                         </motion.div>
 
-                        {/* Content */}
                         <motion.div
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <h2 className="text-6xl font-display text-dark-800 mb-6">
-                                ABOUT US
+                            <h2 className="text-5xl font-display text-dark-900 mb-6">
+                                TU ÚNICA DOSIS<br />
+                                DE DELICIA
                             </h2>
-                            <p className="text-dark-600 mb-6 leading-relaxed">
-                                En Pasteleia, creemos que cada celebración merece algo especial. Nuestra pasión por
-                                la repostería artesanal nos impulsa a crear tartas y budines únicos, elaborados con
-                                ingredientes premium y mucho amor.
+                            <p className="text-lg text-dark-700 mb-6">
+                                Cada producto es elaborado con ingredientes premium y mucho amor.
+                                Nuestras tartas y budines son el resultado de años de perfeccionamiento
+                                en el arte de la pastelería artesanal.
                             </p>
-                            <p className="text-dark-600 mb-8 leading-relaxed">
-                                Cada producto es hecho a mano, sin conservantes ni aditivos artificiales. Trabajamos
-                                con producción limitada y personalizada para garantizar la máxima calidad y frescura
-                                en cada bocado.
-                            </p>
-                            <Link href="/nosotros">
-                                <Button variant="outline">
-                                    Conoce Nuestra Historia
-                                </Button>
-                            </Link>
+                            <div className="flex gap-4">
+                                <div className="text-center">
+                                    <div className="text-4xl font-bold text-brown-600">100%</div>
+                                    <div className="text-sm text-dark-600">Artesanal</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-4xl font-bold text-brown-600">48h</div>
+                                    <div className="text-sm text-dark-600">Entrega</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-4xl font-bold text-brown-600">5★</div>
+                                    <div className="text-sm text-dark-600">Calidad</div>
+                                </div>
+                            </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
+            {/* Why is Baking Considered an Art Form */}
+            <section className="py-16 bg-brown-900 text-white">
+                <div className="container mx-auto px-4">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-5xl font-display mb-6">
+                                ¿POR QUÉ LA PASTELERÍA<br />
+                                ES CONSIDERADA<br />
+                                UN ARTE?
+                            </h2>
+                            <p className="text-lg text-brown-100 mb-6">
+                                La pastelería artesanal combina técnica, creatividad y pasión.
+                                Cada tarta es una obra maestra única, elaborada con precisión y dedicación.
+                            </p>
+                            <Button className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold">
+                                Descubrí Más
+                            </Button>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <div className="relative h-96 rounded-3xl overflow-hidden">
+                                <Image
+                                    src="/images/about-product.jpg"
+                                    alt="Arte de la Pastelería"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Why Dessert's Items is so Special to Customer */}
+            <section className="py-16 bg-accent-50">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-12">
+                        <h2 className="text-5xl font-display text-dark-900 mb-4">
+                            ¿POR QUÉ NUESTROS PRODUCTOS<br />
+                            SON TAN ESPECIALES?
+                        </h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <Card className="p-8 bg-white">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Heart className="w-6 h-6 text-dark-900" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-display text-dark-900 mb-2">Hecho con Amor</h3>
+                                    <p className="text-dark-600">
+                                        Cada producto es elaborado con dedicación y los mejores ingredientes.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-8 bg-white">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Award className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-display text-dark-900 mb-2">Calidad Premium</h3>
+                                    <p className="text-dark-600">
+                                        Solo usamos ingredientes de primera calidad en todas nuestras recetas.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-8 bg-white">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-brown-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Clock className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-display text-dark-900 mb-2">Siempre Fresco</h3>
+                                    <p className="text-dark-600">
+                                        Horneamos bajo pedido para garantizar máxima frescura.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-8 bg-white">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Sparkles className="w-6 h-6 text-dark-900" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-display text-dark-900 mb-2">Sabor Único</h3>
+                                    <p className="text-dark-600">
+                                        Recetas exclusivas que no encontrarás en ningún otro lugar.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
-            <section className="py-20 bg-dark-800 text-white">
+            <section className="py-20 bg-gradient-to-r from-primary-500 to-primary-600">
                 <div className="container mx-auto px-4 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-5xl md:text-6xl font-display mb-6">
+                        <h2 className="text-5xl md:text-6xl font-display text-dark-900 mb-6">
                             ¿Listo para Endulzar tu Día?
                         </h2>
-                        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                            Haz tu pedido ahora y disfruta de nuestras deliciosas tartas y budines artesanales
+                        <p className="text-xl text-dark-800 mb-8 max-w-2xl mx-auto">
+                            Hacé tu pedido ahora y disfrutá de nuestras deliciosas tartas y budines artesanales
                         </p>
                         <Link href="/productos">
-                            <Button size="lg" className="bg-accent-500 hover:bg-accent-600">
+                            <Button size="lg" className="bg-brown-900 hover:bg-brown-800 text-white font-bold text-lg px-12">
                                 Ver Todos los Productos
+                                <ArrowRight className="ml-2 w-6 h-6" />
                             </Button>
                         </Link>
                     </motion.div>
