@@ -1,28 +1,22 @@
-'use client';
-
-export default function Input({
-    label,
-    error,
-    className = '',
-    ...props
-}) {
+export default function Input({ label, error, className = '', ...props }) {
     return (
         <div className="w-full">
             {label && (
-                <label className="block text-sm font-medium text-dark-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                     {label}
                 </label>
             )}
             <input
-                className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors duration-200 ${error
-                        ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-300 focus:border-accent-500'
-                    } ${className}`}
+                className={`
+                    w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all font-sans
+                    ${error
+                        ? 'border-red-300 focus:border-red-500 focus:ring-red-100'
+                        : 'border-gray-300 focus:border-primary-300 focus:ring-primary-100'}
+                    ${className}
+                `}
                 {...props}
             />
-            {error && (
-                <p className="mt-1 text-sm text-red-600">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
     );
 }

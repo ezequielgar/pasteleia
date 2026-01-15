@@ -70,7 +70,11 @@ export default function CarritoPage() {
                 product_name: item.name
             }));
 
+<<<<<<< HEAD
             // 3. Create Order in Database (updates stock automatically via trigger/RPC or manual logic in service)
+=======
+            // 3. Create Order in Database
+>>>>>>> feat-manual-sales
             const { data, error } = await createOrder(orderData, orderItems);
 
             if (error) throw error;
