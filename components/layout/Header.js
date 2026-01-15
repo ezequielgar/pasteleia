@@ -43,12 +43,12 @@ export default function Header() {
                     <div className="hidden md:flex items-center space-x-6">
                         {/* Social Icons */}
                         <div className="flex items-center space-x-3">
-                            <a href="#" className="text-white hover:text-primary-400 transition-colors">
+                            <Link href="/redes/facebook" className="text-white hover:text-primary-400 transition-colors">
                                 <Facebook className="w-4 h-4" />
-                            </a>
-                            <a href="#" className="text-white hover:text-primary-400 transition-colors">
+                            </Link>
+                            <Link href="/redes/instagram" className="text-white hover:text-primary-400 transition-colors">
                                 <Instagram className="w-4 h-4" />
-                            </a>
+                            </Link>
                             <a href="#" className="text-white hover:text-primary-400 transition-colors">
                                 <Twitter className="w-4 h-4" />
                             </a>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -7,8 +8,35 @@ import { Heart, Award, Clock, ArrowRight, Star, Sparkles } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import ProductCard from '@/components/products/ProductCard';
+import { getFeaturedProducts } from '@/lib/services/products';
 
 export default function Home() {
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadFeaturedProducts() {
+            try {
+                const { data, error } = await getFeaturedProducts(3, false);
+                if (!error && data) {
+                    setFeaturedProducts(data);
+                }
+            } catch (err) {
+                console.error('Error loading featured products:', err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadFeaturedProducts();
+    }, []);
+
+    const handleAddToCart = (product) => {
+        // TODO: Implement cart functionality
+        alert(`Producto "${product.name}" agregado al carrito (funcionalidad en desarrollo)`);
+    };
+
     return (
         <main className="min-h-screen bg-white">
             {/* Hero Section - Bake The Cookies Style */}
@@ -91,46 +119,38 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {[
-                            { name: 'Tarta Marmolada', price: '$8,500', image: '/images/hero-bundt-cake.jpg', badge: 'NUEVO' },
-                            { name: 'Budín de Limón', price: '$5,500', image: '/images/about-product.jpg', badge: 'POPULAR' },
-                            { name: 'Tarta de Chocolate', price: '$9,000', image: '/images/hero-bundt-cake.jpg', badge: 'ESPECIAL' },
-                        ].map((product, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <Card className="overflow-hidden group">
-                                    <div className="relative h-64 bg-gray-100">
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-300"
-                                        />
-                                        <div className="absolute top-4 right-4">
-                                            <span className="bg-primary-500 text-dark-900 px-3 py-1 rounded-full text-xs font-bold">
-                                                {product.badge}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="p-6">
-                                        <h3 className="text-2xl font-display text-dark-900 mb-2">{product.name}</h3>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-2xl font-bold text-brown-600">{product.price}</span>
-                                            <Button size="sm" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-semibold">
-                                                Agregar
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div className="text-center py-16">
+                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+                            <p className="mt-4 text-dark-600">Cargando productos...</p>
+                        </div>
+                    ) : featuredProducts.length > 0 ? (
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {featuredProducts.map((product, index) => (
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                    onAddToCart={handleAddToCart}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-16">
+                            <p className="text-dark-600">No hay productos destacados disponibles</p>
+                        </div>
+                    )}
+
+                    {!loading && featuredProducts.length > 0 && (
+                        <div className="text-center mt-12">
+                            <Link href="/productos">
+                                <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
+                                    Ver Todos los Productos
+                                    <ArrowRight className="ml-2 w-5 h-5" />
+                                </Button>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </section>
 

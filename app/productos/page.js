@@ -1,88 +1,54 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Star } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
-
-// Productos temporales - luego se reemplazarán con datos de Supabase
-const TEMP_PRODUCTS = [
-    {
-        id: 1,
-        name: 'Tarta Bundt Marmolada',
-        description: 'Deliciosa tarta bundt con marmolado de chocolate y vainilla, cubierta con glaseado blanco.',
-        price: 8500,
-        image: '/images/hero-bundt-cake.jpg',
-        category: 'Tartas',
-        stock: 5,
-        active: true,
-    },
-    {
-        id: 2,
-        name: 'Budín de Limón',
-        description: 'Budín artesanal con ralladura de limón y glaseado cítrico. Perfecto para el té.',
-        price: 5500,
-        image: '/images/about-product.jpg',
-        category: 'Budines',
-        stock: 8,
-        active: true,
-    },
-    {
-        id: 3,
-        name: 'Tarta de Chocolate',
-        description: 'Tarta bundt de chocolate intenso con ganache de chocolate belga.',
-        price: 9000,
-        image: '/images/hero-bundt-cake.jpg',
-        category: 'Tartas',
-        stock: 3,
-        active: true,
-    },
-    {
-        id: 4,
-        name: 'Budín de Nuez',
-        description: 'Budín tradicional con nueces tostadas y un toque de canela.',
-        price: 6000,
-        image: '/images/about-product.jpg',
-        category: 'Budines',
-        stock: 6,
-        active: true,
-    },
-    {
-        id: 5,
-        name: 'Tarta Red Velvet',
-        description: 'Elegante tarta red velvet con frosting de queso crema.',
-        price: 9500,
-        image: '/images/hero-bundt-cake.jpg',
-        category: 'Tartas',
-        stock: 0,
-        active: true,
-    },
-    {
-        id: 6,
-        name: 'Budín de Banana',
-        description: 'Budín húmedo de banana con chips de chocolate.',
-        price: 5800,
-        image: '/images/about-product.jpg',
-        category: 'Budines',
-        stock: 10,
-        active: true,
-    },
-];
+import ProductGrid from '@/components/products/ProductGrid';
+import CategoryFilter from '@/components/products/CategoryFilter';
+import { getProducts } from '@/lib/services/products';
 
 export default function ProductosPage() {
-    const [selectedCategory, setSelectedCategory] = useState('Todas');
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const categories = ['Todas', 'Tartas', 'Budines'];
+    // Fetch products on mount
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                setLoading(true);
+                const { data, error } = await getProducts(false);
 
-    const filteredProducts = selectedCategory === 'Todas'
-        ? TEMP_PRODUCTS
-        : TEMP_PRODUCTS.filter(p => p.category === selectedCategory);
+                if (error) throw error;
 
+                setProducts(data || []);
+                setFilteredProducts(data || []);
+            } catch (err) {
+                console.error('Error loading products:', err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchProducts();
+    }, []);
+
+    // Handle category filter change
+    const handleFilterChange = (categoryId) => {
+        setSelectedCategory(categoryId);
+
+        if (categoryId === 'all') {
+            setFilteredProducts(products);
+        } else {
+            setFilteredProducts(products.filter(p => p.category === categoryId));
+        }
+    };
+
+    // Handle add to cart (placeholder for now)
     const handleAddToCart = (product) => {
-        // TODO: Implementar lógica del carrito
+        // TODO: Implement cart functionality
         alert(`Producto "${product.name}" agregado al carrito (funcionalidad en desarrollo)`);
     };
 
@@ -96,114 +62,62 @@ export default function ProductosPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center max-w-3xl mx-auto"
                     >
-                        <h1 className="text-6xl md:text-7xl font-display text-dark-800 mb-6">
-                            PRODUCTOS
+                        <h1 className="text-6xl md:text-7xl font-display text-dark-900 mb-6">
+                            NUESTROS PRODUCTOS
                         </h1>
                         <p className="text-xl text-dark-600">
-                            Descubrí nuestras tartas y budines artesanales
+                            Descubrí nuestras tartas, budines y cookies artesanales
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Category Filter */}
-            <section className="py-8 bg-white border-b border-gray-200">
+            {/* Products Section */}
+            <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="flex justify-center space-x-4">
-                        {categories.map((category) => (
-                            <Button
-                                key={category}
-                                variant={selectedCategory === category ? 'primary' : 'outline'}
-                                onClick={() => setSelectedCategory(category)}
-                            >
-                                {category}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
-            </section>
+                    {/* Category Filter */}
+                    <CategoryFilter
+                        products={products}
+                        onFilterChange={handleFilterChange}
+                        selectedCategory={selectedCategory}
+                    />
 
-            {/* Products Grid */}
-            <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredProducts.map((product, index) => (
-                            <motion.div
-                                key={product.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <Card className="overflow-hidden h-full flex flex-col">
-                                    {/* Product Image */}
-                                    <div className="relative h-64 bg-gray-100">
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                        {product.stock === 0 && (
-                                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                                <Badge variant="danger" className="text-lg px-6 py-2">
-                                                    Sin Stock
-                                                </Badge>
-                                            </div>
-                                        )}
-                                        {product.stock > 0 && product.stock <= 3 && (
-                                            <div className="absolute top-4 right-4">
-                                                <Badge variant="warning">
-                                                    ¡Últimas unidades!
-                                                </Badge>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Product Info */}
-                                    <div className="p-6 flex-1 flex flex-col">
-                                        <div className="mb-2">
-                                            <Badge variant="default" className="text-xs">
-                                                {product.category}
-                                            </Badge>
-                                        </div>
-
-                                        <h3 className="text-2xl font-display text-dark-800 mb-2">
-                                            {product.name}
-                                        </h3>
-
-                                        <p className="text-dark-600 mb-4 flex-1">
-                                            {product.description}
-                                        </p>
-
-                                        <div className="flex items-center justify-between mb-4">
-                                            <div className="text-3xl font-bold text-accent-500">
-                                                ${product.price.toLocaleString('es-AR')}
-                                            </div>
-                                            <div className="text-sm text-dark-600">
-                                                Stock: {product.stock}
-                                            </div>
-                                        </div>
-
-                                        <Button
-                                            className="w-full"
-                                            disabled={product.stock === 0}
-                                            onClick={() => handleAddToCart(product)}
-                                        >
-                                            <ShoppingCart className="w-5 h-5 mr-2" />
-                                            {product.stock === 0 ? 'Sin Stock' : 'Agregar al Carrito'}
-                                        </Button>
-                                    </div>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {filteredProducts.length === 0 && (
-                        <div className="text-center py-12">
-                            <p className="text-xl text-dark-600">
-                                No hay productos disponibles en esta categoría
-                            </p>
+                    {/* Loading State */}
+                    {loading && (
+                        <div className="text-center py-16">
+                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+                            <p className="mt-4 text-dark-600">Cargando productos...</p>
                         </div>
+                    )}
+
+                    {/* Error State */}
+                    {error && !loading && (
+                        <div className="text-center py-16">
+                            <div className="text-6xl mb-4">⚠️</div>
+                            <h3 className="text-2xl font-display text-dark-900 mb-2">
+                                Error al cargar productos
+                            </h3>
+                            <p className="text-dark-600 mb-4">{error}</p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="bg-primary-500 hover:bg-primary-600 text-dark-900 px-6 py-2 rounded-full font-bold"
+                            >
+                                Reintentar
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Products Grid */}
+                    {!loading && !error && (
+                        <ProductGrid
+                            products={filteredProducts}
+                            onAddToCart={handleAddToCart}
+                            emptyMessage={
+                                selectedCategory === 'all'
+                                    ? 'No hay productos disponibles'
+                                    : `No hay productos en la categoría seleccionada`
+                            }
+                        />
                     )}
                 </div>
             </section>
@@ -212,16 +126,21 @@ export default function ProductosPage() {
             <section className="py-16 bg-gradient-to-br from-primary-50 to-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-display text-dark-800 mb-4">
+                        <h2 className="text-4xl font-display text-dark-900 mb-4">
                             ¿Buscás algo especial?
                         </h2>
-                        <p className="text-dark-600 mb-6">
+                        <p className="text-lg text-dark-600 mb-6">
                             Podemos personalizar nuestros productos según tus necesidades.
                             Contactanos para consultas sobre pedidos especiales.
                         </p>
-                        <Button variant="outline" size="lg">
-                            Contactar por WhatsApp
-                        </Button>
+                        <a
+                            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold transition-colors"
+                        >
+                            📱 Contactar por WhatsApp
+                        </a>
                     </div>
                 </div>
             </section>
