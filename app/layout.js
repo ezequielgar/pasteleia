@@ -1,6 +1,8 @@
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { CartProvider } from '@/lib/context/CartContext';
+import CartButton from '@/components/cart/CartButton';
 
 export const metadata = {
     title: 'Pasteleia - Pastelería Artesanal',
@@ -12,9 +14,12 @@ export default function RootLayout({ children }) {
     return (
         <html lang="es">
             <body>
-                <Header />
-                {children}
-                <Footer />
+                <CartProvider>
+                    <Header />
+                    {children}
+                    <Footer />
+                    <CartButton />
+                </CartProvider>
             </body>
         </html>
     );

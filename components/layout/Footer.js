@@ -68,8 +68,11 @@ export default function Footer() {
                 </div>
 
                 {/* Copyright */}
-                <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
                     <p>&copy; {new Date().getFullYear()} Pasteleia. Todos los derechos reservados.</p>
+                    <Link href="/admin/login" className="mt-2 md:mt-0 opacity-50 hover:opacity-100 transition-opacity">
+                        Admin
+                    </Link>
                 </div>
             </div>
         </footer>
