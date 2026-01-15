@@ -1,43 +1,27 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
-import { motion } from 'framer-motion';
-
-export default function Button({
-    children,
-    variant = 'primary',
-    size = 'md',
-    className = '',
-    onClick,
-    disabled = false,
-    type = 'button',
-    ...props
-}) {
-    const baseStyles = 'font-semibold rounded-lg transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed';
-
+export default function Button({ children, loading, variant = 'primary', className = '', ...props }) {
     const variants = {
-        primary: 'bg-accent-500 hover:bg-accent-600 text-white hover:scale-105',
-        secondary: 'bg-primary-200 hover:bg-primary-300 text-dark-800',
-        outline: 'border-2 border-accent-500 text-accent-500 hover:bg-accent-500 hover:text-white',
-        ghost: 'text-dark-700 hover:bg-primary-100',
-    };
-
-    const sizes = {
-        sm: 'px-4 py-2 text-sm',
-        md: 'px-6 py-3 text-base',
-        lg: 'px-8 py-4 text-lg',
+        primary: 'bg-primary-500 text-dark-900 hover:bg-primary-600',
+        secondary: 'bg-accent-500 text-white hover:bg-accent-600',
+        outline: 'border-2 border-primary-500 text-primary-700 hover:bg-primary-50',
+        danger: 'bg-red-500 text-white hover:bg-red-600',
+        ghost: 'hover:bg-gray-100 text-gray-700'
     };
 
     return (
-        <motion.button
-            whileHover={{ scale: variant === 'ghost' ? 1 : 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-            onClick={onClick}
-            disabled={disabled}
-            type={type}
+        <button
+            className={`
+                px-4 py-2 rounded-lg font-bold transition-all duration-200 
+                flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed
+                ${variants[variant]} ${className}
+            `}
+            disabled={loading || props.disabled}
             {...props}
         >
+            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {children}
-        </motion.button>
+        </button>
     );
 }

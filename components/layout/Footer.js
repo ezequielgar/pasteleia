@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Instagram, Facebook, Mail, Phone } from 'lucide-react';
 
 export default function Footer() {
@@ -68,8 +69,35 @@ export default function Footer() {
                 </div>
 
                 {/* Copyright */}
-                <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                    <p>&copy; {new Date().getFullYear()} Pasteleia. Todos los derechos reservados.</p>
+                <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col items-center gap-4 text-center">
+                    <p className="text-gray-400 text-sm">
+                        &copy; {new Date().getFullYear()} Pasteleia. Todos los derechos reservados.
+                    </p>
+                    <Link href="/admin/login" className="text-gray-600 hover:text-gray-500 text-xs transition-colors">
+                        Admin
+                    </Link>
+
+                    {/* Developer Credit */}
+                    <div className="flex flex-col items-center gap-3 mt-10">
+                        <span className="text-xs text-gray-600 uppercase tracking-[0.2em] font-medium">Desarrollado por</span>
+
+                        <div className="group relative w-80 h-40 cursor-pointer">
+                            {/* Glow Effect / Background Light */}
+                            <div className="absolute inset-0 bg-accent-400/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                            {/* Logo with Animation */}
+                            <div className="relative w-full h-full transition-transform duration-300 ease-out group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                                <Image
+                                    src="/images/1768453136838.png"
+                                    alt="Lechugas Web Design"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
