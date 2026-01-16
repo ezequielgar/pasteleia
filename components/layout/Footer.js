@@ -69,13 +69,6 @@ export default function Footer() {
                 </div>
 
                 {/* Copyright */}
-<<<<<<< HEAD
-                <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-                    <p>&copy; {new Date().getFullYear()} Pasteleia. Todos los derechos reservados.</p>
-                    <Link href="/admin/login" className="mt-2 md:mt-0 opacity-50 hover:opacity-100 transition-opacity">
-                        Admin
-                    </Link>
-=======
                 <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col items-center gap-4 text-center">
                     <p className="text-gray-400 text-sm">
                         &copy; {new Date().getFullYear()} Pasteleia. Todos los derechos reservados.
@@ -105,7 +98,6 @@ export default function Footer() {
 
                         </div>
                     </div>
->>>>>>> feat-manual-sales
                 </div>
             </div>
         </footer>
