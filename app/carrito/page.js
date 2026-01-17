@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Toast from '@/components/ui/Toast';
+import Input from '@/components/ui/Input';
 
 export default function CarritoPage() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
@@ -222,63 +223,27 @@ export default function CarritoPage() {
 
                                 {/* Customer Form */}
                                 <form onSubmit={handleCheckout} className="space-y-4 mb-6">
-                                    <div>
-                                        <label htmlFor="name" className="inline-block bg-black text-white px-3 py-1 text-xs font-bold uppercase mb-2">
-                                            Nombre Completo *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            value={customerName}
-                                            onChange={(e) => setCustomerName(e.target.value)}
-                                            className={`
-                                                w-full px-4 py-3
-                                                border-4 ${errors.name ? 'border-red-600' : 'border-black'}
-                                                bg-white text-gray-900 font-medium
-                                                focus:outline-none
-                                                ${errors.name
-                                                    ? 'shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] hover:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)] focus:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)]'
-                                                    : 'shadow-[6px_6px_0px_0px_rgba(0,183,255,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)] focus:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)]'
-                                                }
-                                                transition-all duration-200
-                                                disabled:opacity-50 disabled:cursor-not-allowed
-                                            `}
-                                            placeholder="Juan Pérez"
-                                            disabled={loading}
-                                        />
-                                        {errors.name && (
-                                            <p className="text-red-600 text-sm mt-2 font-medium">{errors.name}</p>
-                                        )}
-                                    </div>
+                                    <Input
+                                        label="Nombre Completo *"
+                                        id="name"
+                                        type="text"
+                                        value={customerName}
+                                        onChange={(e) => setCustomerName(e.target.value)}
+                                        placeholder="Juan Pérez"
+                                        disabled={loading}
+                                        error={errors.name}
+                                    />
 
-                                    <div>
-                                        <label htmlFor="phone" className="inline-block bg-black text-white px-3 py-1 text-xs font-bold uppercase mb-2">
-                                            Teléfono *
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            id="phone"
-                                            value={customerPhone}
-                                            onChange={(e) => setCustomerPhone(e.target.value)}
-                                            className={`
-                                                w-full px-4 py-3
-                                                border-4 ${errors.phone ? 'border-red-600' : 'border-black'}
-                                                bg-white text-gray-900 font-medium
-                                                focus:outline-none
-                                                ${errors.phone
-                                                    ? 'shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] hover:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)] focus:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)]'
-                                                    : 'shadow-[6px_6px_0px_0px_rgba(0,183,255,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)] focus:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)]'
-                                                }
-                                                transition-all duration-200
-                                                disabled:opacity-50 disabled:cursor-not-allowed
-                                            `}
-                                            placeholder="3816485599"
-                                            disabled={loading}
-                                        />
-                                        {errors.phone && (
-                                            <p className="text-red-600 text-sm mt-2 font-medium">{errors.phone}</p>
-                                        )}
-                                    </div>
+                                    <Input
+                                        label="Teléfono *"
+                                        id="phone"
+                                        type="tel"
+                                        value={customerPhone}
+                                        onChange={(e) => setCustomerPhone(e.target.value)}
+                                        placeholder="3816485599"
+                                        disabled={loading}
+                                        error={errors.phone}
+                                    />
 
                                     <div className="border-t border-gray-200 pt-4 mt-4">
                                         <div className="flex justify-between items-center mb-6">

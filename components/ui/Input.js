@@ -2,21 +2,29 @@ export default function Input({ label, error, className = '', ...props }) {
     return (
         <div className="w-full">
             {label && (
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="inline-block bg-black text-white px-3 py-1 text-xs font-bold uppercase mb-2">
                     {label}
                 </label>
             )}
             <input
                 className={`
-                    w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all font-sans
+                    w-full px-4 py-3
+                    border-4 ${error ? 'border-red-600' : 'border-black'}
+                    bg-white text-gray-900 font-medium
+                    focus:outline-none
                     ${error
-                        ? 'border-red-300 focus:border-red-500 focus:ring-red-100'
-                        : 'border-gray-300 focus:border-primary-300 focus:ring-primary-100'}
+                        ? 'shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] hover:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)] focus:shadow-[8px_8px_0px_0px_rgba(220,38,38,1)]'
+                        : 'shadow-[6px_6px_0px_0px_rgba(0,183,255,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)] focus:shadow-[8px_8px_0px_0px_rgba(0,183,255,1)]'
+                    }
+                    transition-all duration-200
+                    disabled:opacity-50 disabled:cursor-not-allowed
                     ${className}
                 `}
                 {...props}
             />
-            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+            {error && (
+                <p className="text-red-600 text-sm mt-2 font-medium">{error}</p>
+            )}
         </div>
     );
 }
