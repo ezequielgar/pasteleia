@@ -56,6 +56,12 @@ export default {
                     800: '#1A1A1A',
                     900: '#0A0A0A',
                 },
+                retro: {
+                    bg: '#EDDCD9',
+                    border: '#264143',
+                    shadow: '#E99F4C',
+                    btn: '#DE5499',
+                },
             },
             fontFamily: {
                 display: ['Anton', 'Bebas Neue', 'Impact', 'sans-serif'],
