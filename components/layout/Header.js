@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ShoppingCart, Menu, X, Facebook, Instagram, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '@/lib/context/CartContext';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { getTotalItems } = useCart();
 
     const navLinks = [
         { href: '/', label: 'INICIO' },
@@ -58,7 +60,7 @@ export default function Header() {
                         <Link href="/carrito" className="relative">
                             <ShoppingCart className="w-5 h-5 text-white hover:text-primary-400 transition-colors" />
                             <span className="absolute -top-2 -right-2 bg-primary-500 text-dark-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                                0
+                                {getTotalItems()}
                             </span>
                         </Link>
 
@@ -108,7 +110,7 @@ export default function Header() {
                                 <div className="px-4 pt-4 border-t border-brown-700">
                                     <Link href="/carrito" className="flex items-center space-x-2 text-white hover:text-primary-400 py-2">
                                         <ShoppingCart className="w-5 h-5" />
-                                        <span>Carrito (0)</span>
+                                        <span>Carrito ({getTotalItems()})</span>
                                     </Link>
                                     <Link href="/admin" className="block mt-2">
                                         <button className="w-full bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold px-6 py-2 rounded-full text-sm">
