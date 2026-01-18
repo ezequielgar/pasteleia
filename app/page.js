@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import ProductCard from '@/components/products/ProductCard';
+import { AuroraText } from '@/components/ui/AuroraText';
 import { getFeaturedProducts } from '@/lib/services/products';
 import { useCart } from '@/lib/context/CartContext';
 import Toast from '@/components/ui/Toast';
@@ -75,7 +76,7 @@ export default function Home() {
                                 </h1>
 
                                 <p className="text-xl mb-8 text-purple-100">
-                                    Descubrí el arte de nuestra pastelería artesanal y disfrutá de sabores únicos
+                                    Descubrí el arte de nuestra pastelería <AuroraText className="font-accent text-5xl">artesanal&nbsp;</AuroraText> y disfrutá de sabores únicos
                                 </p>
 
                                 <div className="flex flex-wrap gap-4">
@@ -236,9 +237,12 @@ export default function Home() {
                                     La pastelería artesanal combina técnica, creatividad y pasión.
                                     Cada tarta es una obra maestra única, elaborada con precisión y dedicación.
                                 </p>
-                                <Button className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
-                                    Descubrí Más
-                                </Button>
+                                <Link href="/productos">
+                                    <button className="font-navbar text-[0.9rem] font-bold border-2 border-black rounded-[7px] px-6 py-2 bg-primary-500 text-black shadow-[5px_5px_0px_#000000] flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] cursor-pointer">
+                                        Descubrí Más
+                                        <ArrowRight className="w-5 h-5" />
+                                    </button>
+                                </Link>
                             </motion.div>
 
                             <motion.div

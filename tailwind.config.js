@@ -64,11 +64,14 @@ export default {
                 },
             },
             fontFamily: {
-                display: ['Anton', 'Bebas Neue', 'Impact', 'sans-serif'],
-                sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
-                navbar: ['Sour Gummy', 'Poppins', 'sans-serif'],
+                display: ['var(--font-bebas)', 'sans-serif'],
+                body: ['var(--font-inter)', 'sans-serif'],
+                sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+                navbar: ['var(--font-inter)', 'sans-serif'],
+                accent: ['var(--font-yellowtail)', 'cursive'],
             },
             animation: {
+                'aurora': 'aurora 6s linear infinite',
                 'fade-in': 'fadeIn 0.5s ease-in-out',
                 'slide-up': 'slideUp 0.5s ease-out',
                 'slide-down': 'slideDown 0.5s ease-out',
@@ -76,6 +79,10 @@ export default {
                 'bounce-slow': 'bounce 3s infinite',
             },
             keyframes: {
+                aurora: {
+                    '0%': { backgroundPosition: '50% 50%', backgroundImage: 'linear-gradient(90deg, #FFEB3B 0%, #FBC02D 50%, #FFEB3B 100%)' },
+                    '100%': { backgroundPosition: '350% 50%', backgroundImage: 'linear-gradient(90deg, #FFEB3B 0%, #FBC02D 50%, #FFEB3B 100%)' },
+                },
                 fadeIn: {
                     '0%': { opacity: '0' },
                     '100%': { opacity: '1' },
