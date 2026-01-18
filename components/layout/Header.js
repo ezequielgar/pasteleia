@@ -2,13 +2,25 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShoppingCart, Menu, X, Facebook, Instagram, Twitter } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ShoppingCart, Menu, X, Facebook, Instagram, Twitter, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/context/CartContext';
+import { supabase } from '@/lib/supabase/client';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { getTotalItems } = useCart();
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const isAdminRoute = pathname?.startsWith('/admin') && pathname !== '/admin/login';
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        router.push('/admin/login');
+        router.refresh();
+    };
 
     const navLinks = [
         { href: '/', label: 'INICIO' },
@@ -64,12 +76,22 @@ export default function Header() {
                             </span>
                         </Link>
 
-                        {/* Sign In Button */}
-                        <Link href="/admin">
-                            <button className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-navbar font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105">
-                                ADMIN
+                        {/* Sign In / Logout Button */}
+                        {isAdminRoute ? (
+                            <button
+                                onClick={handleLogout}
+                                className="bg-red-500 hover:bg-red-600 text-white font-navbar font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                            >
+                                <LogOut className="w-4 h-4" />
+                                SALIR
                             </button>
-                        </Link>
+                        ) : (
+                            <Link href="/admin">
+                                <button className="bg-primary-500 hover:bg-primary-600 text-dark-900 font-navbar font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105">
+                                    ADMIN
+                                </button>
+                            </Link>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -112,11 +134,25 @@ export default function Header() {
                                         <ShoppingCart className="w-5 h-5" />
                                         <span>Carrito ({getTotalItems()})</span>
                                     </Link>
-                                    <Link href="/admin" className="block mt-2">
-                                        <button className="w-full bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold px-6 py-2 rounded-full text-sm">
-                                            ADMIN
+
+                                    {isAdminRoute ? (
+                                        <button
+                                            onClick={() => {
+                                                handleLogout();
+                                                setIsMenuOpen(false);
+                                            }}
+                                            className="w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-2 rounded-full text-sm flex items-center justify-center gap-2"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            CERRAR SESIÓN
                                         </button>
-                                    </Link>
+                                    ) : (
+                                        <Link href="/admin" className="block mt-2">
+                                            <button className="w-full bg-primary-500 hover:bg-primary-600 text-dark-900 font-bold px-6 py-2 rounded-full text-sm">
+                                                ADMIN
+                                            </button>
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </motion.nav>
