@@ -80,15 +80,18 @@ export default function Home() {
 
                                 <div className="flex flex-wrap gap-4">
                                     <Link href="/productos">
-                                        <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
+                                        <button className="font-navbar text-[0.9rem] font-bold border-2 border-black rounded-[7px] px-6 py-2 bg-primary-500 text-black shadow-[5px_5px_0px_#000000] flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] cursor-pointer">
                                             Ver Productos
-                                            <ArrowRight className="ml-2 w-5 h-5" />
-                                        </Button>
+                                            <ArrowRight className="w-5 h-5" />
+                                        </button>
                                     </Link>
                                     <Link href="/contacto">
-                                        <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-purple-900">
+                                        <button className="font-navbar text-[0.9rem] font-bold border-2 border-black rounded-[7px] px-4 py-2 bg-white text-black shadow-[5px_5px_0px_#000000] flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] cursor-pointer">
                                             Contactanos
-                                        </Button>
+                                            <svg className="w-6 h-6 transition-all duration-300 ease-in-out" viewBox="0 0 24 24" fill="currentColor">
+                                                <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clipRule="evenodd" />
+                                            </svg>
+                                        </button>
                                     </Link>
                                 </div>
                             </motion.div>
@@ -153,10 +156,10 @@ export default function Home() {
                         {!loading && featuredProducts.length > 0 && (
                             <div className="text-center mt-12">
                                 <Link href="/productos">
-                                    <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-black font-navbar font-bold">
+                                    <button className="font-navbar text-[0.9rem] font-bold border-2 border-black rounded-[7px] px-8 py-3 bg-primary-500 text-black shadow-[5px_5px_0px_#000000] flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] cursor-pointer">
                                         Ver Todos los Productos
-                                        <ArrowRight className="ml-2 w-5 h-5" />
-                                    </Button>
+                                        <ArrowRight className="w-5 h-5" />
+                                    </button>
                                 </Link>
                             </div>
                         )}
