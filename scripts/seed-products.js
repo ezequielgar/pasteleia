@@ -106,6 +106,15 @@ const sampleProducts = [
         category: 'budines',
         image_url: '/images/budin de avena.jpeg',
     },
+    {
+        name: 'Budín de Chips de Chocolate',
+        description: 'Budín esponjoso repleto de chips de chocolate. El favorito de los dulceros.',
+        price: 5500,
+        stock: 10,
+        active: true,
+        category: 'budines',
+        image_url: '/images/budin chips choco.jpeg',
+    },
 ]
 
 async function seedProducts() {
