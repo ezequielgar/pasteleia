@@ -134,9 +134,9 @@ export default function CarritoPage() {
                         <h1 className="text-4xl font-bold text-gray-900">Carrito de Compras</h1>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-8">
+                    <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
                         {/* Cart Items */}
-                        <div className="lg:col-span-2 space-y-4">
+                        <div className="lg:col-span-2 space-y-3 lg:space-y-4">
                             {cart.map((item) => (
                                 <motion.div
                                     key={item.id}
@@ -144,11 +144,11 @@ export default function CarritoPage() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -20 }}
-                                    className="bg-white p-6 rounded-lg shadow-sm"
+                                    className="bg-white p-4 sm:p-6 rounded-lg shadow-sm"
                                 >
-                                    <div className="flex gap-6">
+                                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                                         {/* Image */}
-                                        <div className="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+                                        <div className="relative w-full sm:w-32 h-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden">
                                             <Image
                                                 src={item.image_url}
                                                 alt={item.name}
@@ -159,9 +159,9 @@ export default function CarritoPage() {
 
                                         {/* Details */}
                                         <div className="flex-1">
-                                            <div className="flex justify-between items-start mb-4">
+                                            <div className="flex justify-between items-start mb-3 sm:mb-4">
                                                 <div>
-                                                    <h3 className="text-xl font-bold text-gray-900">
+                                                    <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                                                         {item.name}
                                                     </h3>
                                                     <p className="text-gray-600">
@@ -177,7 +177,7 @@ export default function CarritoPage() {
                                                 </button>
                                             </div>
 
-                                            <div className="flex items-center justify-between">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                                                 {/* Quantity Controls */}
                                                 <div className="flex items-center gap-3">
                                                     <button
@@ -204,7 +204,7 @@ export default function CarritoPage() {
                                                 </div>
 
                                                 {/* Subtotal */}
-                                                <p className="text-2xl font-bold text-primary-600">
+                                                <p className="text-xl sm:text-2xl font-bold text-primary-600">
                                                     ${(item.price * item.quantity).toFixed(2)}
                                                 </p>
                                             </div>
@@ -216,13 +216,13 @@ export default function CarritoPage() {
 
                         {/* Order Summary */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white p-6 rounded-lg shadow-sm sticky top-6">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm lg:sticky lg:top-6">
+                                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
                                     Resumen del Pedido
                                 </h2>
 
                                 {/* Customer Form */}
-                                <form onSubmit={handleCheckout} className="space-y-4 mb-6">
+                                <form onSubmit={handleCheckout} className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
                                     <Input
                                         label="Nombre Completo *"
                                         id="name"
@@ -248,7 +248,7 @@ export default function CarritoPage() {
                                     <div className="border-t border-gray-200 pt-4 mt-4">
                                         <div className="flex justify-between items-center mb-6">
                                             <span className="text-lg font-medium text-gray-900">Total</span>
-                                            <span className="text-3xl font-bold text-primary-600">
+                                            <span className="text-2xl sm:text-3xl font-bold text-primary-600">
                                                 ${getTotalPrice().toFixed(2)}
                                             </span>
                                         </div>
@@ -256,7 +256,7 @@ export default function CarritoPage() {
                                         <button
                                             type="submit"
                                             disabled={loading}
-                                            className="w-full bg-accent-500 text-white py-3 rounded-lg font-bold hover:bg-accent-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+                                            className="w-full bg-accent-500 text-white py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-bold hover:bg-accent-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
                                         >
                                             {loading ? (
                                                 <>
