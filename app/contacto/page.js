@@ -8,7 +8,7 @@ import Card from '@/components/ui/Card';
 
 export default function ContactoPage() {
     const handleWhatsAppClick = () => {
-        const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5493816485599';
+        const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5493814637258';
         const message = encodeURIComponent('¡Hola! Me gustaría hacer una consulta sobre los productos de Pasteleia.');
         window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
     };
@@ -79,10 +79,10 @@ export default function ContactoPage() {
                                         Llamanos o envianos un mensaje
                                     </p>
                                     <a
-                                        href="tel:+5493816485599"
+                                        href="tel:+5493814637258"
                                         className="text-accent-500 font-semibold hover:underline"
                                     >
-                                        +54 9 381 6485599
+                                        +54 9 381 463-7258
                                     </a>
                                 </Card>
                             </motion.div>
