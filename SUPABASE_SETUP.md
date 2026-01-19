@@ -32,7 +32,7 @@ This guide will help you configure Supabase for the Pasteleia web application.
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your-project-url-here
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-NEXT_PUBLIC_WHATSAPP_NUMBER=5493816485599
+NEXT_PUBLIC_WHATSAPP_NUMBER=5493814637258
 ```
 
 ## Step 4: Create Database Schema
