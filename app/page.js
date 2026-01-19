@@ -104,14 +104,16 @@ export default function Home() {
                                 transition={{ duration: 0.6, delay: 0.2 }}
                                 className="relative"
                             >
-                                <div className="relative w-full h-96">
-                                    <Image
-                                        src="/images/hero-bundt-cake.jpg"
-                                        alt="Tarta Artesanal"
-                                        fill
-                                        className="object-contain drop-shadow-2xl"
-                                        priority
-                                    />
+                                <div className="relative w-full max-w-md mx-auto aspect-square bg-white border-[6px] border-black shadow-[12px_12px_0px_#000] transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[17px_17px_0px_#000] p-4">
+                                    <div className="relative w-full h-full overflow-hidden border-2 border-black">
+                                        <Image
+                                            src="/images/budin chips choco.jpeg"
+                                            alt="Budín de Chips de Chocolate"
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                        />
+                                    </div>
                                 </div>
                             </motion.div>
                         </div>
