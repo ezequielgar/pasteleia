@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProductGrid from '@/components/products/ProductGrid';
-import CategoryFilter from '@/components/products/CategoryFilter';
+import AnimatedCategoryFilter from '@/components/products/AnimatedCategoryFilter';
 import { getProducts } from '@/lib/services/products';
 import { useCart } from '@/lib/context/CartContext';
 import Toast from '@/components/ui/Toast';
@@ -84,8 +84,8 @@ export default function ProductosPage() {
                 {/* Products Section */}
                 <section className="py-16 bg-white">
                     <div className="container mx-auto px-4">
-                        {/* Category Filter */}
-                        <CategoryFilter
+                        {/* Animated Category Filter */}
+                        <AnimatedCategoryFilter
                             products={products}
                             onFilterChange={handleFilterChange}
                             selectedCategory={selectedCategory}

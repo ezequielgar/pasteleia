@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Planet Jumbo Font */
+@font-face {
+  font-family: 'Planet Jumbo';
+  src: url('/fonts/PlanetJumbo.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --primary-yellow: #FFEB3B;
   --primary-yellow-dark: #FBC02D;

@@ -7,6 +7,7 @@ import { ShoppingCart, Menu, X, Facebook, Instagram, Twitter, LogOut } from 'luc
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/context/CartContext';
 import { supabase } from '@/lib/supabase/client';
+import { TextAnimate } from '@/components/ui/TextAnimate';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,9 +35,14 @@ export default function Header() {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center">
-                        <span className="text-3xl font-navbar font-bold text-primary-500 tracking-wide">
-                            PASTELEIA
+                    <Link href="/" className="flex items-center group">
+                        <span
+                            className="text-2xl text-white tracking-wide transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(255,235,59,0.8)]"
+                            style={{ fontFamily: "'Planet Jumbo', cursive" }}
+                        >
+                            <TextAnimate animation="blurInUp" by="character" duration={1.5}>
+                                Pasteleia
+                            </TextAnimate>
                         </span>
                     </Link>
 
