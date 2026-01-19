@@ -71,8 +71,8 @@ export default function Home() {
                                 </div>
 
                                 <h1 className="text-6xl md:text-7xl font-display leading-none mb-6">
-                                    HORNEÁ<br />
-                                    LAS TARTAS
+                                    RECIÉN SALIDO<br />
+                                    DEL HORNO
                                 </h1>
 
                                 <p className="text-xl mb-8 text-purple-100">

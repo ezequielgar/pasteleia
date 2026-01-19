@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProductGrid from '@/components/products/ProductGrid';
 import AnimatedCategoryFilter from '@/components/products/AnimatedCategoryFilter';
+import ProductsLoading from '@/components/ui/ProductsLoading';
 import { getProducts } from '@/lib/services/products';
 import { useCart } from '@/lib/context/CartContext';
 import Toast from '@/components/ui/Toast';
@@ -13,9 +14,19 @@ export default function ProductosPage() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [loading, setLoading] = useState(true);
+    const [showLoadingScreen, setShowLoadingScreen] = useState(true);
     const [error, setError] = useState(null);
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' });
     const { addToCart } = useCart();
+
+    // Show loading screen for 1.5 seconds on mount
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowLoadingScreen(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // Fetch products on mount
     useEffect(() => {
@@ -62,7 +73,11 @@ export default function ProductosPage() {
 
     return (
         <>
-            <main className="min-h-screen">
+            {/* Show loading screen for 1.5 seconds */}
+            {showLoadingScreen && <ProductsLoading />}
+
+            {/* Main content - hidden while loading screen is shown */}
+            <main className={`min-h-screen ${showLoadingScreen ? 'hidden' : ''}`}>
                 {/* Hero Section */}
                 <section className="relative py-20 bg-gradient-to-br from-primary-100 to-primary-50">
                     <div className="container mx-auto px-4">

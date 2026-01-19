@@ -35,7 +35,48 @@ export default function Header() {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center group">
+                    <Link href="/" className="flex items-center gap-3 group">
+                        {/* Logo Image with Black Hole Animation */}
+                        <motion.div
+                            className="relative w-10 h-10 flex items-center justify-center"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <motion.div
+                                className="absolute inset-0 rounded-full bg-gradient-radial from-primary-400/20 via-primary-500/40 to-transparent opacity-0 group-hover:opacity-100"
+                                animate={{
+                                    rotate: 360,
+                                    scale: [1, 1.2, 1],
+                                }}
+                                transition={{
+                                    rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+                                    scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                                }}
+                            />
+                            <motion.img
+                                src="/images/pastelei_logo_solo.png"
+                                alt="Pasteleia Logo"
+                                className="relative w-full h-full object-contain z-10"
+                                animate={{
+                                    rotate: [0, 360],
+                                }}
+                                transition={{
+                                    duration: 20,
+                                    repeat: Infinity,
+                                    ease: "linear",
+                                }}
+                                whileHover={{
+                                    rotate: [0, 360],
+                                    transition: {
+                                        duration: 1.5,
+                                        repeat: Infinity,
+                                        ease: "linear",
+                                    },
+                                }}
+                            />
+                        </motion.div>
+
+                        {/* Text */}
                         <span
                             className="text-2xl text-white tracking-wide transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(255,235,59,0.8)]"
                             style={{ fontFamily: "'Planet Jumbo', cursive" }}

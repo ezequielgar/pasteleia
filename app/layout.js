@@ -26,6 +26,9 @@ export const metadata = {
     title: 'Pasteleia - Pastelería Artesanal',
     description: 'Tartas y budines artesanales hechos con amor. Pedidos por encargo.',
     keywords: 'pastelería, tartas, budines, artesanal, pedidos',
+    icons: {
+        icon: '/favicon.ico',
+    },
 };
 
 export default function RootLayout({ children }) {

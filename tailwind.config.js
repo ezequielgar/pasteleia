@@ -63,6 +63,9 @@ export default {
                     btn: '#DE5499',
                 },
             },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            },
             fontFamily: {
                 display: ['var(--font-bebas)', 'sans-serif'],
                 body: ['var(--font-inter)', 'sans-serif'],
