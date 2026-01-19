@@ -97,6 +97,15 @@ const sampleProducts = [
         category: 'budines',
         image_url: '/images/products/budin-banana.jpg',
     },
+    {
+        name: 'Budín de Avena',
+        description: 'Delicioso y saludable budín de avena. Ideal para un desayuno nutritivo.',
+        price: 5500,
+        stock: 10,
+        active: true,
+        category: 'budines',
+        image_url: '/images/budin de avena.jpeg',
+    },
 ]
 
 async function seedProducts() {
