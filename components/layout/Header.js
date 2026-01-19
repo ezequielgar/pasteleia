@@ -8,12 +8,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/context/CartContext';
 import { supabase } from '@/lib/supabase/client';
 import { TextAnimate } from '@/components/ui/TextAnimate';
+import SocialModal from '@/components/ui/SocialModal';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedNetwork, setSelectedNetwork] = useState(null);
     const { getTotalItems } = useCart();
     const pathname = usePathname();
     const router = useRouter();
+
+    const handleSocialClick = (network) => {
+        setSelectedNetwork(network);
+        setModalOpen(true);
+    };
 
     const isAdminRoute = pathname?.startsWith('/admin') && pathname !== '/admin/login';
 
@@ -104,12 +112,18 @@ export default function Header() {
                     <div className="hidden md:flex items-center space-x-6">
                         {/* Social Icons */}
                         <div className="flex items-center space-x-3">
-                            <Link href="/redes/facebook" className="text-white hover:text-primary-400 transition-colors">
+                            <button
+                                onClick={() => handleSocialClick('facebook')}
+                                className="text-white hover:text-primary-400 transition-colors cursor-pointer"
+                            >
                                 <Facebook className="w-4 h-4" />
-                            </Link>
-                            <Link href="/redes/instagram" className="text-white hover:text-primary-400 transition-colors">
+                            </button>
+                            <button
+                                onClick={() => handleSocialClick('instagram')}
+                                className="text-white hover:text-primary-400 transition-colors cursor-pointer"
+                            >
                                 <Instagram className="w-4 h-4" />
-                            </Link>
+                            </button>
                             <a href="#" className="text-white hover:text-primary-400 transition-colors">
                                 <Twitter className="w-4 h-4" />
                             </a>
@@ -206,6 +220,13 @@ export default function Header() {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Social Media Modal */}
+            <SocialModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                network={selectedNetwork}
+            />
         </header>
     );
 }

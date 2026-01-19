@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import ProductGrid from '@/components/products/ProductGrid';
 import AnimatedCategoryFilter from '@/components/products/AnimatedCategoryFilter';
 import ProductsLoading from '@/components/ui/ProductsLoading';
+import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import { getProducts } from '@/lib/services/products';
 import { useCart } from '@/lib/context/CartContext';
 import Toast from '@/components/ui/Toast';
@@ -157,14 +158,12 @@ export default function ProductosPage() {
                                 Podemos personalizar nuestros productos según tus necesidades.
                                 Contactanos para consultas sobre pedidos especiales.
                             </p>
-                            <a
-                                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold transition-colors"
+                            <WhatsAppButton
+                                message="¡Hola! Me gustaría hacer una consulta sobre pedidos especiales."
+                                className="inline-block"
                             >
                                 📱 Contactar por WhatsApp
-                            </a>
+                            </WhatsAppButton>
                         </div>
                     </div>
                 </section>

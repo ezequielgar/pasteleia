@@ -5,6 +5,7 @@ import { useState } from 'react';
 const categories = [
     { id: 'tartas', name: 'TARTAS', color: '#ff7f50' }, // Coral - Izquierda
     { id: 'budines', name: 'BUDINES', color: '#019b98' }, // Teal - Derecha
+    { id: 'cookies', name: 'COOKIES', color: '#8B4513' }, // Brown - Nueva
     { id: 'all', name: 'TODOS', color: '#ffd700' }, // Gold - Centro (último en orden HTML)
 ];
 
@@ -34,7 +35,8 @@ export default function AnimatedCategoryFilter({ products, onFilterChange, selec
                 <div className="button-box">
                     {/* Touch areas - deben estar primero */}
                     <div className="touch left" onClick={() => handleCategoryClick('tartas')}></div>
-                    <div className="touch middle" onClick={() => handleCategoryClick('all')}></div>
+                    <div className="touch middle-left" onClick={() => handleCategoryClick('cookies')}></div>
+                    <div className="touch middle-right" onClick={() => handleCategoryClick('all')}></div>
                     <div className="touch right" onClick={() => handleCategoryClick('budines')}></div>
 
                     {/* Botones - en orden específico para la animación */}
@@ -47,16 +49,25 @@ export default function AnimatedCategoryFilter({ products, onFilterChange, selec
                         <span className="button-text rotate-left">TARTAS</span>
                     </button>
 
-                    {/* Botón 2: BUDINES (derecha) */}
+                    {/* Botón 2: COOKIES (medio-izquierda) */}
+                    <button
+                        className={`button ${activeCategory === 'cookies' ? 'active' : ''}`}
+                        style={{ backgroundColor: '#8B4513' }}
+                        onClick={() => handleCategoryClick('cookies')}
+                    >
+                        <span className="button-text rotate-middle-left">COOKIES</span>
+                    </button>
+
+                    {/* Botón 3: BUDINES (medio-derecha) */}
                     <button
                         className={`button ${activeCategory === 'budines' ? 'active' : ''}`}
                         style={{ backgroundColor: '#019b98' }}
                         onClick={() => handleCategoryClick('budines')}
                     >
-                        <span className="button-text rotate-right">BUDINES</span>
+                        <span className="button-text rotate-middle-right">BUDINES</span>
                     </button>
 
-                    {/* Botón 3: TODOS (centro - último para que quede arriba) */}
+                    {/* Botón 4: TODOS (centro - último para que quede arriba) */}
                     <button
                         className={`button ${activeCategory === 'all' ? 'active' : ''}`}
                         style={{ backgroundColor: '#ffd700' }}
@@ -85,7 +96,7 @@ export default function AnimatedCategoryFilter({ products, onFilterChange, selec
                 }
                 .button-box {
                     position: relative;
-                    width: 12rem;
+                    width: 14rem;
                     height: 5rem;
                     display: flex;
                 }
@@ -137,102 +148,131 @@ export default function AnimatedCategoryFilter({ products, onFilterChange, selec
                     transform: scale(1.05);
                 }
 
-                /* Botón 1 - TARTAS (izquierda) */
-                .button:nth-child(4) {
+                /* Botón 1 - TARTAS (extremo izquierda) - nth-child(5) */
+                .button:nth-child(5) {
                     transform: translate(-50%, -50%) rotate(90deg);
                     z-index: 30;
                 }
 
-                /* Botón 2 - BUDINES (derecha) */
-                .button:nth-child(5) {
-                    transform: translate(-50%, -50%) rotate(-115deg);
+                /* Botón 2 - COOKIES (medio-izquierda) - nth-child(6) */
+                .button:nth-child(6) {
+                    transform: translate(-50%, -50%) rotate(45deg);
+                    z-index: 35;
+                }
+
+                /* Botón 3 - BUDINES (medio-derecha) - nth-child(7) */
+                .button:nth-child(7) {
+                    transform: translate(-50%, -50%) rotate(-45deg);
                     z-index: 40;
                 }
 
-                /* Botón 3 - TODOS (centro) */
-                .button:nth-child(6) {
-                    transform: translate(-50%, -50%) rotate(-45deg);
+                /* Botón 4 - TODOS (centro/arriba) - nth-child(8) */
+                .button:nth-child(8) {
+                    transform: translate(-50%, -50%) rotate(0deg);
                     z-index: 50;
                 }
 
                 /* Hover en contenedor - despliega todos */
-                .button-box:hover .button:nth-child(4) {
-                    transform: translate(-170%, -50%) rotate(-90deg);
-                }
-
                 .button-box:hover .button:nth-child(5) {
-                    transform: translate(70%, -50%) rotate(90deg);
+                    transform: translate(-220%, -50%) rotate(-90deg);
                 }
 
                 .button-box:hover .button:nth-child(6) {
-                    transform: translate(-50%, -50%) rotate(0deg);
+                    transform: translate(-110%, -50%) rotate(-90deg);
+                }
+
+                .button-box:hover .button:nth-child(7) {
+                    transform: translate(10%, -50%) rotate(90deg);
+                }
+
+                .button-box:hover .button:nth-child(8) {
+                    transform: translate(120%, -50%) rotate(90deg);
                 }
 
                 /* Hover individual en touch areas */
-                .touch.left:hover ~ .button:nth-child(4) {
+                .touch.left:hover ~ .button:nth-child(5) {
                     opacity: 1;
-                    transform: translate(-170%, -50%) rotate(-90deg) scale(1.05);
+                    transform: translate(-220%, -50%) rotate(-90deg) scale(1.05);
                 }
 
-                .touch.left:active ~ .button:nth-child(4) {
-                    transform: translate(-170%, -50%) rotate(-90deg) scale(0.95);
+                .touch.left:active ~ .button:nth-child(5) {
+                    transform: translate(-220%, -50%) rotate(-90deg) scale(0.95);
                 }
 
-                .touch.middle:hover ~ .button:nth-child(6) {
+                .touch.middle-left:hover ~ .button:nth-child(6) {
                     opacity: 1;
-                    transform: translate(-50%, -50%) rotate(0deg) scale(1.05);
+                    transform: translate(-110%, -50%) rotate(-90deg) scale(1.05);
                 }
 
-                .touch.middle:active ~ .button:nth-child(6) {
-                    transform: translate(-50%, -50%) rotate(0deg) scale(0.95);
+                .touch.middle-left:active ~ .button:nth-child(6) {
+                    transform: translate(-110%, -50%) rotate(-90deg) scale(0.95);
                 }
 
-                .touch.right:hover ~ .button:nth-child(5) {
+                .touch.middle-right:hover ~ .button:nth-child(8) {
                     opacity: 1;
-                    transform: translate(70%, -50%) rotate(90deg) scale(1.05);
+                    transform: translate(120%, -50%) rotate(90deg) scale(1.05);
                 }
 
-                .touch.right:active ~ .button:nth-child(5) {
-                    transform: translate(70%, -50%) rotate(90deg) scale(0.95);
+                .touch.middle-right:active ~ .button:nth-child(8) {
+                    transform: translate(120%, -50%) rotate(90deg) scale(0.95);
+                }
+
+                .touch.right:hover ~ .button:nth-child(7) {
+                    opacity: 1;
+                    transform: translate(10%, -50%) rotate(90deg) scale(1.05);
+                }
+
+                .touch.right:active ~ .button:nth-child(7) {
+                    transform: translate(10%, -50%) rotate(90deg) scale(0.95);
                 }
 
                 /* Contra-rotación del texto para mantenerlo horizontal */
                 /* Texto en estado inicial (botones apilados) */
-                .button:nth-child(4) .button-text.rotate-left {
+                .button:nth-child(5) .button-text.rotate-left {
                     transform: rotate(-90deg);
                     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
 
-                .button:nth-child(5) .button-text.rotate-right {
-                    transform: rotate(115deg);
+                .button:nth-child(6) .button-text.rotate-middle-left {
+                    transform: rotate(-45deg);
                     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
 
-                .button:nth-child(6) .button-text.rotate-center {
+                .button:nth-child(7) .button-text.rotate-middle-right {
                     transform: rotate(45deg);
                     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
 
+                .button:nth-child(8) .button-text.rotate-center {
+                    transform: rotate(0deg);
+                    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
                 /* Texto cuando los botones se despliegan (hover) */
-                .button-box:hover .button:nth-child(4) .button-text.rotate-left,
-                .touch.left:hover ~ .button:nth-child(4) .button-text.rotate-left {
+                .button-box:hover .button:nth-child(5) .button-text.rotate-left,
+                .touch.left:hover ~ .button:nth-child(5) .button-text.rotate-left {
                     transform: rotate(90deg);
                 }
 
-                .button-box:hover .button:nth-child(5) .button-text.rotate-right,
-                .touch.right:hover ~ .button:nth-child(5) .button-text.rotate-right {
+                .button-box:hover .button:nth-child(6) .button-text.rotate-middle-left,
+                .touch.middle-left:hover ~ .button:nth-child(6) .button-text.rotate-middle-left {
+                    transform: rotate(90deg);
+                }
+
+                .button-box:hover .button:nth-child(7) .button-text.rotate-middle-right,
+                .touch.right:hover ~ .button:nth-child(7) .button-text.rotate-middle-right {
                     transform: rotate(-90deg);
                 }
 
-                .button-box:hover .button:nth-child(6) .button-text.rotate-center,
-                .touch.middle:hover ~ .button:nth-child(6) .button-text.rotate-center {
-                    transform: rotate(0deg);
+                .button-box:hover .button:nth-child(8) .button-text.rotate-center,
+                .touch.middle-right:hover ~ .button:nth-child(8) .button-text.rotate-center {
+                    transform: rotate(-90deg);
                 }
 
                 /* Responsive */
                 @media (max-width: 640px) {
                     .button-box {
-                        width: 10rem;
+                        width: 12rem;
                     }
 
                     .button {
