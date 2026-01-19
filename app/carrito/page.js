@@ -123,20 +123,20 @@ export default function CarritoPage() {
             <div className="container mx-auto px-4">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
-                    <div className="mb-8">
+                    <div className="mb-6 sm:mb-8">
                         <Link
                             href="/productos"
-                            className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-4"
+                            className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-4 text-sm sm:text-base"
                         >
-                            <ArrowLeft className="w-5 h-5" />
+                            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                             Seguir comprando
                         </Link>
-                        <h1 className="text-4xl font-bold text-gray-900">Carrito de Compras</h1>
+                        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Carrito de Compras</h1>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div className="grid lg:grid-cols-3 gap-8">
                         {/* Cart Items */}
-                        <div className="lg:col-span-2 space-y-3 lg:space-y-4">
+                        <div className="lg:col-span-2 space-y-4">
                             {cart.map((item) => (
                                 <motion.div
                                     key={item.id}
@@ -148,7 +148,7 @@ export default function CarritoPage() {
                                 >
                                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                                         {/* Image */}
-                                        <div className="relative w-full sm:w-32 h-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden">
+                                        <div className="relative w-full sm:w-32 h-48 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden">
                                             <Image
                                                 src={item.image_url}
                                                 alt={item.name}
@@ -159,7 +159,7 @@ export default function CarritoPage() {
 
                                         {/* Details */}
                                         <div className="flex-1">
-                                            <div className="flex justify-between items-start mb-3 sm:mb-4">
+                                            <div className="flex justify-between items-start mb-4">
                                                 <div>
                                                     <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                                                         {item.name}
@@ -177,26 +177,26 @@ export default function CarritoPage() {
                                                 </button>
                                             </div>
 
-                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                 {/* Quantity Controls */}
                                                 <div className="flex items-center gap-3">
                                                     <button
                                                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
                                                         aria-label="Disminuir cantidad"
                                                     >
-                                                        <Minus className="w-5 h-5" />
+                                                        <Minus className="w-4 h-4 sm:w-5 sm:h-5" />
                                                     </button>
-                                                    <span className="w-12 text-center font-bold text-lg">
+                                                    <span className="w-8 sm:w-12 text-center font-bold text-lg">
                                                         {item.quantity}
                                                     </span>
                                                     <button
                                                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                                         disabled={item.quantity >= item.stock}
-                                                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                                         aria-label="Aumentar cantidad"
                                                     >
-                                                        <Plus className="w-5 h-5" />
+                                                        <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                                                     </button>
                                                     <span className="text-sm text-gray-500 ml-2">
                                                         (Stock: {item.stock})
@@ -204,7 +204,7 @@ export default function CarritoPage() {
                                                 </div>
 
                                                 {/* Subtotal */}
-                                                <p className="text-xl sm:text-2xl font-bold text-primary-600">
+                                                <p className="text-xl sm:text-2xl font-bold text-primary-600 text-right">
                                                     ${(item.price * item.quantity).toFixed(2)}
                                                 </p>
                                             </div>
@@ -216,13 +216,13 @@ export default function CarritoPage() {
 
                         {/* Order Summary */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm lg:sticky lg:top-6">
-                                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+                            <div className="bg-white p-5 sm:p-6 rounded-lg shadow-sm sticky top-6">
+                                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
                                     Resumen del Pedido
                                 </h2>
 
                                 {/* Customer Form */}
-                                <form onSubmit={handleCheckout} className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                                <form onSubmit={handleCheckout} className="space-y-4 mb-6">
                                     <Input
                                         label="Nombre Completo *"
                                         id="name"
@@ -240,7 +240,7 @@ export default function CarritoPage() {
                                         type="tel"
                                         value={customerPhone}
                                         onChange={(e) => setCustomerPhone(e.target.value)}
-                                        placeholder="3816485599"
+                                        placeholder="381XXX..."
                                         disabled={loading}
                                         error={errors.phone}
                                     />
@@ -256,7 +256,7 @@ export default function CarritoPage() {
                                         <button
                                             type="submit"
                                             disabled={loading}
-                                            className="w-full bg-accent-500 text-white py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-bold hover:bg-accent-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+                                            className="w-full bg-accent-500 text-white py-3 rounded-lg font-bold hover:bg-accent-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center text-sm sm:text-base"
                                         >
                                             {loading ? (
                                                 <>
