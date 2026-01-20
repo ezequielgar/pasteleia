@@ -242,7 +242,7 @@ export default function ProductForm({ product, onSuccess, onCancel }) {
                     Cancelar
                 </Button>
                 <Button type="submit" loading={loading}>
-                    {product ? 'Actualizar Producto' : 'Crear Producto'}
+                    {product?.id ? 'Actualizar Producto' : 'Crear Producto'}
                 </Button>
             </div>
         </form>

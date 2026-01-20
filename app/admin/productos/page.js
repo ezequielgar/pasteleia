@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase/client';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import ProductForm from '@/components/admin/ProductForm';
-import { Plus, Edit2, Trash2, Search, Filter } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Filter, Copy } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 
 export default function ProductsPage() {
@@ -39,6 +39,19 @@ export default function ProductsPage() {
 
     const handleEdit = (product) => {
         setEditingProduct(product);
+        setIsModalOpen(true);
+    };
+
+    const handleDuplicate = (product) => {
+        // Create a copy of the product without ID and created_at
+        // and add ' (Copia)' to the name
+        const productCopy = {
+            ...product,
+            id: undefined, // Ensure it's treated as a new product
+            name: `${product.name} (Copia)`,
+            image_url: product.image_url // Keep the same image URL
+        };
+        setEditingProduct(productCopy);
         setIsModalOpen(true);
     };
 
@@ -167,14 +180,23 @@ export default function ProductsPage() {
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
+                                                    onClick={() => handleDuplicate(product)}
+                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Duplicar"
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
+                                                <button
                                                     onClick={() => handleEdit(product)}
                                                     className="p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                                                    title="Editar"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(product.id)}
                                                     className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Eliminar"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
@@ -192,7 +214,7 @@ export default function ProductsPage() {
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title={editingProduct ? 'Editar Producto' : 'Nuevo Producto'}
+                title={editingProduct?.id ? 'Editar Producto' : 'Nuevo Producto'}
             >
                 <ProductForm
                     product={editingProduct}
