@@ -7,6 +7,7 @@ import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
+import FinanceChart from '@/components/admin/FinanceChart';
 import {
     TrendingUp,
     TrendingDown,
@@ -27,6 +28,10 @@ export default function FinanzasPage() {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Chart State
+    const [chartData, setChartData] = useState({ weekly: [], monthly: [] });
+    const [viewPeriod, setViewPeriod] = useState('month'); // 'week' | 'month'
+
     // Form State
     const [newExpense, setNewExpense] = useState({
         description: '',
@@ -35,13 +40,88 @@ export default function FinanzasPage() {
     });
     const [submitting, setSubmitting] = useState(false);
 
+    // Process data by week (last 12 weeks)
+    const processWeeklyData = (orders, expenses) => {
+        const weeks = [];
+        const now = new Date();
+
+        for (let i = 11; i >= 0; i--) {
+            const weekStart = new Date(now);
+            weekStart.setDate(now.getDate() - (i * 7) - now.getDay());
+            weekStart.setHours(0, 0, 0, 0);
+
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            weekEnd.setHours(23, 59, 59, 999);
+
+            const weekIncome = orders
+                .filter(o => {
+                    const date = new Date(o.created_at);
+                    return date >= weekStart && date <= weekEnd;
+                })
+                .reduce((sum, o) => sum + Number(o.total), 0);
+
+            const weekExpenses = expenses
+                .filter(e => {
+                    const date = new Date(e.date);
+                    return date >= weekStart && date <= weekEnd;
+                })
+                .reduce((sum, e) => sum + Number(e.amount), 0);
+
+            weeks.push({
+                label: `Sem ${12 - i}`,
+                income: weekIncome,
+                expenses: weekExpenses,
+                profit: weekIncome - weekExpenses
+            });
+        }
+
+        return weeks;
+    };
+
+    // Process data by month (last 12 months)
+    const processMonthlyData = (orders, expenses) => {
+        const months = [];
+        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const now = new Date();
+
+        for (let i = 11; i >= 0; i--) {
+            const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const monthStart = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+            const monthEnd = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+            const monthIncome = orders
+                .filter(o => {
+                    const date = new Date(o.created_at);
+                    return date >= monthStart && date <= monthEnd;
+                })
+                .reduce((sum, o) => sum + Number(o.total), 0);
+
+            const monthExpenses = expenses
+                .filter(e => {
+                    const date = new Date(e.date);
+                    return date >= monthStart && date <= monthEnd;
+                })
+                .reduce((sum, e) => sum + Number(e.amount), 0);
+
+            months.push({
+                label: monthNames[monthDate.getMonth()],
+                income: monthIncome,
+                expenses: monthExpenses,
+                profit: monthIncome - monthExpenses
+            });
+        }
+
+        return months;
+    };
+
     const fetchData = async () => {
         setLoading(true);
         try {
-            // 1. Fetch Completed Orders for Income
+            // 1. Fetch Completed Orders for Income (with timestamps)
             const { data: orders, error: ordersError } = await supabase
                 .from('orders')
-                .select('total')
+                .select('total, created_at')
                 .eq('status', 'completed');
 
             if (ordersError) throw ordersError;
@@ -64,6 +144,13 @@ export default function FinanzasPage() {
                 expenses: totalExpenses,
                 profit: totalIncome - totalExpenses
             });
+
+            // Process chart data
+            if (orders && expensesData) {
+                const weekly = processWeeklyData(orders, expensesData);
+                const monthly = processMonthlyData(orders, expensesData);
+                setChartData({ weekly, monthly });
+            }
 
         } catch (error) {
             console.error('Error fetching finance data:', error);
@@ -185,6 +272,39 @@ export default function FinanzasPage() {
                     </div>
                 </Card>
             </div>
+
+            {/* Chart Section */}
+            <Card className="p-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-gray-700">Evolución Financiera</h3>
+                        <p className="text-sm text-gray-500 mt-1">Visualización de ingresos, gastos y ganancias</p>
+                    </div>
+
+                    {/* Period Selector */}
+                    <div className="flex gap-2">
+                        <Button
+                            variant={viewPeriod === 'week' ? 'primary' : 'outline'}
+                            onClick={() => setViewPeriod('week')}
+                            size="sm"
+                        >
+                            Por Semana
+                        </Button>
+                        <Button
+                            variant={viewPeriod === 'month' ? 'primary' : 'outline'}
+                            onClick={() => setViewPeriod('month')}
+                            size="sm"
+                        >
+                            Por Mes
+                        </Button>
+                    </div>
+                </div>
+
+                <FinanceChart
+                    data={viewPeriod === 'week' ? chartData.weekly : chartData.monthly}
+                    period={viewPeriod}
+                />
+            </Card>
 
             {/* Expenses List */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
