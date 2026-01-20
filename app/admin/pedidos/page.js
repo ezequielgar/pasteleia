@@ -6,7 +6,7 @@ import { getOrders, updateOrderStatus } from '@/lib/services/orders';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
-import { Search, Eye, CheckCircle, XCircle, Clock, ShoppingBag } from 'lucide-react';
+import { Search, Eye, CheckCircle, XCircle, Clock, ShoppingBag, Trash2 } from 'lucide-react';
 
 export default function PedidosPage() {
     const [orders, setOrders] = useState([]);
@@ -52,6 +52,37 @@ export default function PedidosPage() {
     const openOrderDetails = (order) => {
         setSelectedOrder(order);
         setIsModalOpen(true);
+    };
+
+    const handleDeleteOrder = async (orderId, e) => {
+        e.stopPropagation(); // Prevent opening modal
+
+        if (!confirm('¿Estás seguro de eliminar este pedido? Esta acción no se puede deshacer.')) {
+            return;
+        }
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .delete()
+                .eq('id', orderId);
+
+            if (error) throw error;
+
+            // Update state - remove order from list
+            setOrders(orders.filter(o => o.id !== orderId));
+
+            // Close modal if this order is open
+            if (selectedOrder && selectedOrder.id === orderId) {
+                setIsModalOpen(false);
+                setSelectedOrder(null);
+            }
+
+            alert('Pedido eliminado exitosamente');
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            alert('Error al eliminar el pedido');
+        }
     };
 
     const getStatusBadge = (status) => {
@@ -140,13 +171,22 @@ export default function PedidosPage() {
                                             {getStatusBadge(order.status)}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <button
-                                                onClick={() => openOrderDetails(order)}
-                                                className="inline-flex items-center px-3 py-1.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                            >
-                                                <Eye className="w-4 h-4 mr-2" />
-                                                Ver
-                                            </button>
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button
+                                                    onClick={() => openOrderDetails(order)}
+                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <Eye className="w-4 h-4 mr-2" />
+                                                    Ver
+                                                </button>
+                                                <button
+                                                    onClick={(e) => handleDeleteOrder(order.id, e)}
+                                                    className="inline-flex items-center p-2 border border-gray-200 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors"
+                                                    title="Eliminar pedido"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -200,6 +240,15 @@ export default function PedidosPage() {
                                     </button>
                                 )}
                             </div>
+
+                            {/* Delete Button */}
+                            <button
+                                onClick={(e) => handleDeleteOrder(selectedOrder.id, e)}
+                                className="flex items-center px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+                            >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Eliminar Pedido
+                            </button>
                         </div>
 
                         {/* Customer Info */}

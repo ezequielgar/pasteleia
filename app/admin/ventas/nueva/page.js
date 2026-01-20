@@ -49,7 +49,7 @@ export default function ManualSalePage() {
                     : item
             ));
         } else {
-            setCart([...cart, { ...product, quantity: 1 }]);
+            setCart([...cart, { ...product, quantity: 1, isFree: false }]);
         }
     };
 
@@ -62,7 +62,19 @@ export default function ManualSalePage() {
         setCart(cart.filter(item => item.id !== id));
     };
 
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const toggleFreeStatus = (id) => {
+        setCart(cart.map(item =>
+            item.id === id
+                ? { ...item, isFree: !item.isFree }
+                : item
+        ));
+    };
+
+    const total = cart.reduce((sum, item) => {
+        // Si es gratis, no suma al total
+        if (item.isFree) return sum;
+        return sum + (item.price * item.quantity);
+    }, 0);
 
     const handleRegisterSale = async () => {
         if (cart.length === 0) return;
@@ -80,7 +92,7 @@ export default function ManualSalePage() {
             const orderItems = cart.map(item => ({
                 product_id: item.id,
                 quantity: item.quantity,
-                price: item.price,
+                price: item.isFree ? 0 : item.price, // Price 0 si es gratis
                 product_name: item.name
             }));
 
@@ -180,12 +192,40 @@ export default function ManualSalePage() {
                                 </p>
                             ) : (
                                 cart.map(item => (
-                                    <div key={item.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                                        <div>
-                                            <p className="font-medium text-gray-900 text-sm">{item.name}</p>
-                                            <p className="text-xs text-gray-500">${item.price}</p>
+                                    <div key={item.id} className="flex justify-between items-start bg-gray-50 p-3 rounded-lg">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2">
+                                                <p className="font-medium text-gray-900 text-sm">{item.name}</p>
+                                                {item.isFree && (
+                                                    <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
+                                                        Promo
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <p className="text-xs text-gray-500">
+                                                    ${item.price} × {item.quantity}
+                                                </p>
+                                                {item.isFree && (
+                                                    <p className="text-xs text-green-600 font-medium">
+                                                        (Sin cargo)
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {/* Toggle Free Checkbox */}
+                                            <label className="flex items-center gap-2 mt-2 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={item.isFree || false}
+                                                    onChange={() => toggleFreeStatus(item.id)}
+                                                    className="w-4 h-4 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                                                />
+                                                <span className="text-xs text-gray-600">Sin costo/Promo</span>
+                                            </label>
                                         </div>
-                                        <div className="flex items-center gap-3">
+
+                                        <div className="flex items-center gap-3 ml-2">
                                             <div className="flex items-center gap-1">
                                                 <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 hover:bg-gray-200 rounded">
                                                     <Minus className="w-3 h-3" />
@@ -204,9 +244,26 @@ export default function ManualSalePage() {
                             )}
                         </div>
 
-                        <div className="border-t border-gray-100 pt-4 mb-6">
-                            <div className="flex justify-between items-center text-lg font-bold text-gray-900">
-                                <span>Total</span>
+                        <div className="border-t border-gray-100 pt-4 mb-6 space-y-2">
+                            {/* Subtotal de items pagos */}
+                            <div className="flex justify-between text-sm text-gray-600">
+                                <span>Subtotal</span>
+                                <span>${total.toFixed(2)}</span>
+                            </div>
+
+                            {/* Mostrar items gratis si hay */}
+                            {cart.some(item => item.isFree) && (
+                                <div className="flex justify-between text-sm text-green-600">
+                                    <span>Items promocionales</span>
+                                    <span>
+                                        ${cart.filter(item => item.isFree).reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)} (Sin cargo)
+                                    </span>
+                                </div>
+                            )}
+
+                            {/* Total final */}
+                            <div className="flex justify-between items-center text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
+                                <span>Total a Pagar</span>
                                 <span>${total.toFixed(2)}</span>
                             </div>
                         </div>

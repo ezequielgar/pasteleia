@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import Stepper from '@/components/ui/Stepper';
-import { BookOpen, Plus, Trash2, ChevronDown, ChevronUp, Edit2, X } from 'lucide-react';
+import { BookOpen, Plus, Trash2, ChevronDown, ChevronUp, Edit2, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RecetasPage() {
@@ -15,6 +15,7 @@ export default function RecetasPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [expandedRecipe, setExpandedRecipe] = useState(null);
     const [editingRecipe, setEditingRecipe] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Form State
     const [formData, setFormData] = useState({
@@ -180,6 +181,11 @@ export default function RecetasPage() {
         }
     };
 
+    // Filter recipes based on search query
+    const filteredRecipes = recipes.filter(recipe =>
+        recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -193,10 +199,48 @@ export default function RecetasPage() {
                 </Button>
             </div>
 
+            {/* Search Bar */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Buscar receta por nombre..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+                    />
+                    {searchQuery && (
+                        <button
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                            aria-label="Limpiar búsqueda"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    )}
+                </div>
+
+                {searchQuery && (
+                    <p className="text-sm text-gray-500 mt-2">
+                        {filteredRecipes.length} receta(s) encontrada(s)
+                    </p>
+                )}
+            </div>
+
             <div className="grid gap-4">
                 {loading ? (
                     <div className="text-center py-12 text-gray-500">Cargando recetario...</div>
-                ) : recipes.length === 0 ? (
+                ) : filteredRecipes.length === 0 && searchQuery ? (
+                    <div className="text-center py-12 bg-white rounded-xl border border-gray-100">
+                        <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                        <h3 className="text-lg font-medium text-gray-900">No se encontraron recetas</h3>
+                        <p className="text-gray-500 mb-4">Intenta con otro término de búsqueda</p>
+                        <Button onClick={() => setSearchQuery('')} variant="outline">
+                            Limpiar búsqueda
+                        </Button>
+                    </div>
+                ) : filteredRecipes.length === 0 ? (
                     <div className="text-center py-12 bg-white rounded-xl border border-gray-100">
                         <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                         <h3 className="text-lg font-medium text-gray-900">Tu recetario está vacío</h3>
@@ -204,7 +248,7 @@ export default function RecetasPage() {
                         <Button onClick={() => { resetForm(); setIsModalOpen(true); }}>Crear Receta</Button>
                     </div>
                 ) : (
-                    recipes.map((recipe) => (
+                    filteredRecipes.map((recipe) => (
                         <div
                             key={recipe.id}
                             className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"

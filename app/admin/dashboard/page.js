@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import Card from '@/components/ui/Card';
+import FinanceSummaryCard from '@/components/admin/FinanceSummaryCard';
+import ManualSaleCard from '@/components/admin/ManualSaleCard';
+import ProductManagementCard from '@/components/admin/ProductManagementCard';
 import { Package, AlertTriangle, TrendingUp, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 
@@ -11,6 +14,10 @@ export default function DashboardPage() {
         products: 0,
         lowStock: 0,
         orders: 0
+    });
+    const [financeData, setFinanceData] = useState({
+        income: [0, 0, 0, 0, 0, 0, 0],
+        expenses: [0, 0, 0, 0, 0, 0, 0]
     });
     const [loading, setLoading] = useState(true);
 
@@ -39,6 +46,9 @@ export default function DashboardPage() {
                     lowStock: lowStockCount || 0,
                     orders: ordersCount || 0
                 });
+
+                // Fetch finance data for last 7 days
+                await fetchFinanceData();
             } catch (error) {
                 console.error('Error loading stats:', error);
             } finally {
@@ -49,13 +59,75 @@ export default function DashboardPage() {
         fetchStats();
     }, []);
 
+    async function fetchFinanceData() {
+        try {
+            const today = new Date();
+            const last7Days = [];
+
+            // Generate array of last 7 days
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                date.setHours(0, 0, 0, 0);
+                last7Days.push(date);
+            }
+
+            // Fetch completed orders
+            const { data: orders, error: ordersError } = await supabase
+                .from('orders')
+                .select('total, created_at')
+                .eq('status', 'completed')
+                .gte('created_at', last7Days[0].toISOString());
+
+            if (ordersError) throw ordersError;
+
+            // Fetch expenses
+            const { data: expenses, error: expensesError } = await supabase
+                .from('expenses')
+                .select('amount, date')
+                .gte('date', last7Days[0].toISOString());
+
+            if (expensesError) throw expensesError;
+
+            // Process data by day
+            const incomeByDay = new Array(7).fill(0);
+            const expensesByDay = new Array(7).fill(0);
+
+            orders?.forEach(order => {
+                const orderDate = new Date(order.created_at);
+                orderDate.setHours(0, 0, 0, 0);
+                const dayIndex = last7Days.findIndex(d => d.getTime() === orderDate.getTime());
+                if (dayIndex !== -1) {
+                    incomeByDay[dayIndex] += order.total;
+                }
+            });
+
+            expenses?.forEach(expense => {
+                const expenseDate = new Date(expense.date);
+                expenseDate.setHours(0, 0, 0, 0);
+                const dayIndex = last7Days.findIndex(d => d.getTime() === expenseDate.getTime());
+                if (dayIndex !== -1) {
+                    expensesByDay[dayIndex] += expense.amount;
+                }
+            });
+
+            setFinanceData({
+                income: incomeByDay,
+                expenses: expensesByDay
+            });
+        } catch (error) {
+            console.error('Error fetching finance data:', error);
+        }
+    }
+
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
             <h1 className="text-3xl font-display text-dark-800">
                 Panel de Control
             </h1>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            {/* Stats Cards */}
+            <div className="grid md:grid-cols-3 gap-4">
                 <Card className="p-6 border-l-4 border-l-primary-500">
                     <div className="flex items-center justify-between">
                         <div>
@@ -99,17 +171,21 @@ export default function DashboardPage() {
                 </Card>
             </div>
 
-            {/* Quick Actions */}
-            <div className="grid md:grid-cols-2 gap-6">
-                <Link href="/admin/ventas/nueva" className="block p-6 bg-primary-50 border border-primary-100 rounded-xl hover:shadow-md transition-shadow group">
-                    <h3 className="text-lg font-bold mb-2 text-primary-800 group-hover:text-primary-900">Nueva Venta Manual</h3>
-                    <p className="text-primary-700/80">Registrar una venta de mostrador o telefónica.</p>
-                </Link>
+            {/* Finance Summary & Actions in Grid */}
+            <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4">
+                {/* Finance Summary Card */}
+                <div className="lg:col-span-1">
+                    <FinanceSummaryCard
+                        incomeData={financeData.income}
+                        expensesData={financeData.expenses}
+                    />
+                </div>
 
-                <Link href="/admin/productos" className="block p-6 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-shadow">
-                    <h3 className="text-lg font-bold mb-2">Gestionar Productos</h3>
-                    <p className="text-gray-600">Agregar, editar o eliminar productos del catálogo.</p>
-                </Link>
+                {/* Quick Actions */}
+                <div className="lg:col-span-2 grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+                    <ManualSaleCard />
+                    <ProductManagementCard />
+                </div>
             </div>
         </div>
     );
